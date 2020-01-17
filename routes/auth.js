@@ -79,29 +79,33 @@ router.post('/googledit', (req, res) => {
 router.post('/googledelete', (req, res) => {
     // grab user by email
     GoogleUser.findOne({ email: req.body.email }, (err, user) => {
-        let myList = user.todo
-        if (myList.includes(req.body.item)) {
-            myList.splice(myList.indexOf(req.body.item), 1)
-            user.todo = myList
-            user.save()
-            res.json(user.todo)
-        } else {
-            res.json(user.todo)
-        }
+        var myIndex;
+        let myArray = [...user.todo]
+        myArray.forEach((ele, index) => {
+            if (ele.listItem === req.body.item) {
+                myIndex = index
+            }
+        })
+        myArray.splice(myArray[myIndex], 1)
+        user.todo = myArray
+        user.save()
+        res.json(user.todo)
     })
 })
 
 router.post('/delete', (req, res) => {
     User.findOne({ email: req.body.email }, (err, user) => {
-        let myList = user.todo
-        if (myList.includes(req.body.item)) {
-            myList.splice(myList.indexOf(req.body.item), 1)
-            user.todo = myList
-            user.save()
-            res.json(user.todo)
-        } else {
-            res.json(user.todo)
-        }
+        var myIndex;
+        let myArray = [...user.todo]
+        myArray.forEach((ele, index) => {
+            if (ele.listItem === req.body.item) {
+                myIndex = index
+            }
+        })
+        myArray.splice(myArray[myIndex], 1)
+        user.todo = myArray
+        user.save()
+        res.json(user.todo)
     })
 })
 

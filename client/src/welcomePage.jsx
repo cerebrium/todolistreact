@@ -49,10 +49,16 @@ const WelcomePage = (props) => {
     var handleSubmit = (ev) => {
         ev.preventDefault()
         var currentList = []
+        // if the state list is not empty
         if (todoList !== undefined) {
             currentList = [...todoList]
-            currentList.push(ev.target.item.value)
+            currentList.push({
+                listItem: ev.target.item.value,
+                date: viewDate
+            })
             setTodoList(currentList)
+
+            // axios call to save the entry to db google
             if (props.user.googleuser) {
                 axios.post('/auth/googledit', {
                     email: props.user.email,
@@ -63,6 +69,8 @@ const WelcomePage = (props) => {
                 }).then( response => {
                     console.log(response.data)
                 })
+                          
+                // axios call to save the entry to db non-google
             } else {
                 axios.post('/auth/edit', {
                     email: props.user.email,
@@ -75,8 +83,12 @@ const WelcomePage = (props) => {
                 })
             }
             ev.target.item.value = ''
+            // if the list in state is empty
         } else {
-            currentList.push(ev.target.item.value)
+            currentList.push({
+                listItem: ev.target.item.value,
+                date: viewDate
+            })
             setTodoList(currentList)
             ev.target.item.value = ''
         }
@@ -96,7 +108,9 @@ const WelcomePage = (props) => {
     var handleListClick = (ev) => {
         let theTarget = ev.target.outerHTML
         let myRegexedTarget = theTarget.match(/>\D*</)
-        let myFinalTarget = myRegexedTarget[0].replace(/(<|>)/mg, '')
+        let myfirstTarget = myRegexedTarget[0].replace(/(<|>)/mg, '')
+        let myFinalTarget = myfirstTarget.replace('Item: ', '')
+        console.log(myFinalTarget)
         if (props.user.googleuser) {
             axios.post('/auth/googledelete', {
                 email: props.user.email,
@@ -120,7 +134,7 @@ const WelcomePage = (props) => {
     var items;
     if (todoList) {
         items = todoList.map((ele, index) => 
-            <li key={index} className={`listitem${index}`} name={`listitem${index}`} onMouseEnter={handleMouseEnter} onMouseOut={handleMouseLeave} onClick={handleListClick}>{ele}</li>
+            <li key={index} className={`listitem${index}`} name={`listitem${index}`} onMouseEnter={handleMouseEnter} onMouseOut={handleMouseLeave} onClick={handleListClick}>Date: {ele.date}<br />Item: {ele.listItem}</li>
         )
     } else {
         items = ''
