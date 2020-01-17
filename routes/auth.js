@@ -41,18 +41,69 @@ router.post('/signup', (req, res) => {
     })
 });
 
+// GOOGLE AUTH SIGNUP ROUTE
 router.post('/googlesignup', (req, res) => {
     // See if the email is already in the db
     GoogleUser.findOne({email: req.body.email}, (err, user) => {
         if (user) {
             res.json(user)
         } else {
-            let newUser = new GoogleUser
-            newUser.save(req.body)
+            let newUser = new GoogleUser(req.body)
+            newUser.save()
             res.json(newUser)
         }
     })
 });
+
+
+// GOOGLE AUTH EDIT ROUTE
+router.post('/googledit', (req, res) => {
+    // grab user by email
+    GoogleUser.findOne({ email: req.body.email }, (err, user) => {
+        if (user.todo.length > 0) {
+            let userList = [...user.todo]
+            userList.push(req.body.item)
+            user.todo = userList
+            user.save()
+            res.json(user.todo)
+        } else {
+            let userList = []
+            userList.push(req.body.item)
+            user.todo = userList
+            user.save()
+            res.json(user.todo)
+        }
+    })
+})
+
+router.post('/googledelete', (req, res) => {
+    // grab user by email
+    GoogleUser.findOne({ email: req.body.email }, (err, user) => {
+        let myList = user.todo
+        if (myList.includes(req.body.item)) {
+            myList.splice(myList.indexOf(req.body.item), 1)
+            user.todo = myList
+            user.save()
+            res.json(user.todo)
+        } else {
+            res.json(user.todo)
+        }
+    })
+})
+
+router.post('/delete', (req, res) => {
+    User.findOne({ email: req.body.email }, (err, user) => {
+        let myList = user.todo
+        if (myList.includes(req.body.item)) {
+            myList.splice(myList.indexOf(req.body.item), 1)
+            user.todo = myList
+            user.save()
+            res.json(user.todo)
+        } else {
+            res.json(user.todo)
+        }
+    })
+})
 
 router.post('/login', (req, res) => {
     // Find the user in the db
@@ -86,6 +137,25 @@ router.post('/login', (req, res) => {
         }
     })
 });
+
+// normal auth edit route
+router.post('/edit', (req, res) => {
+    User.findOne({ email: req.body.email }, (err, user) => {
+        if (user.todo.length > 0) {
+            let userList = [...user.todo]
+            userList.push(req.body.item)
+            user.todo = userList
+            user.save()
+            res.json(user.todo)
+        } else {
+            let userList = []
+            userList.push(req.body.item)
+            user.todo = userList
+            user.save()
+            res.json(user.todo)
+        }
+    })
+})
 
 router.post('/me/from/token', (req, res) => {
     // request must contain a token

@@ -24,7 +24,8 @@ const App = () => {
     console.log(response.profileObj)
       axios.post('/auth/googlesignup', {
         name: response.profileObj.name, 
-        email: response.profileObj.email
+        email: response.profileObj.email,
+        googleuser: 'true'
       }).then(res => {
         setUser(res.data)
       })
