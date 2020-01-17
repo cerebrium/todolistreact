@@ -130,6 +130,7 @@ h1 {
 .listStyling{
   overflow: scroll;
   text-align: left;
+  padding-right: 5%;
 }
 
 .currentScheduledEvents {

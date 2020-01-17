@@ -86,7 +86,7 @@ router.post('/googledelete', (req, res) => {
                 myIndex = index
             }
         })
-        myArray.splice(myArray[myIndex], 1)
+        myArray.splice(myIndex, 1)
         user.todo = myArray
         user.save()
         res.json(user.todo)
@@ -102,7 +102,7 @@ router.post('/delete', (req, res) => {
                 myIndex = index
             }
         })
-        myArray.splice(myArray[myIndex], 1)
+        myArray.splice(myIndex, 1)
         user.todo = myArray
         user.save()
         res.json(user.todo)
