@@ -108,7 +108,8 @@ const App = () => {
               cookiePolicy={'single_host_origin'}
               className='googleLogin'
             />
-          <Signup liftToken={liftToken} />
+            <br />
+          <Signup liftToken={liftToken} /><br />
           <Login liftToken={liftToken} className='login'/>
         </div>
       </div>

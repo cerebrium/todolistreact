@@ -78,7 +78,7 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-image: url('./ernesta-vala-grass.jpg');
+  background-image: url('./dominik-schroder-clouds.jpg');
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -91,9 +91,20 @@ h1 {
   margin-left: 2%;
   height: 45vh;
   width: 30vw;
-  border: 2px solid rgba(138, 136, 136, 0.8);
+  border: 2px solid rgba(250, 247, 247, 0.8);
   border-radius: 5%;
-  background-color: rgba(138, 136, 136, 0.6);
+  background-color: rgba(250, 247, 247, 0.6);
+}
+
+.listPlacer{
+  display: flex;
+  flex-direction: column;
+  margin-left: 2%;
+  height: 45vh;
+  width: 30vw;
+  border: 2px solid rgba(250, 247, 247, 0.8);
+  border-radius: 5%;
+  background-color: rgba(250, 247, 247, 0.6);
 }
 
 .weatherStyle {
@@ -105,15 +116,33 @@ h1 {
   margin-left: 2%;
   height: 20vh;
   width: 80vw;
-  border: 2px solid rgba(138, 136, 136, 0.8);
-  border-radius: 5%;
-  background-color: rgba(138, 136, 136, 0.6);
+}
+
+.listStyling{
+  overflow: scroll;
+  text-align: left;
+}
+
+.itemsOnList{
+  overflow: scroll;
 }
 
 .weatherDailyData{
+  width: 40vw;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+}
+
+.rainBackground {
+  border: 2px solid rgba(250, 247, 247, 0.8);
+  border-radius: 5%;
+  background-color: rgba(250, 247, 247, 0.6);
+}
+
+h3{
+  margin: 1%;
 }
 
 .bottomBoxes{
