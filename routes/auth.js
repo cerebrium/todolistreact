@@ -48,7 +48,7 @@ router.post('/googlesignup', (req, res) => {
             res.json(user)
         } else {
             let newUser = new GoogleUser
-            newUser.save()
+            newUser.save(req.body)
             res.json(newUser)
         }
     })

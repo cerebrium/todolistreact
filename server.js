@@ -24,6 +24,7 @@ db.on('error', (err) => {
 
 // mounting
 app.use('/auth', require('./routes/auth'));
+app.use('/api', require('./routes/weather'))
 app.use('/locked',
         expressJWT({ secret: process.env.JWT_SECRET }).unless({ method: 'POST' }), 
         require('./routes/locked'));
