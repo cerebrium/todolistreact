@@ -21,7 +21,6 @@ const App = () => {
 
   // handles writting data to database and recieving google data
   const responseGoogle = (response) => {
-    console.log(response.profileObj)
       axios.post('/auth/googlesignup', {
         name: response.profileObj.name, 
         email: response.profileObj.email,

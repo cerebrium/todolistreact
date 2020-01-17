@@ -1,5 +1,4 @@
 import React, { useState, useEffect} from 'react'
-import { Link } from 'react-router-dom'
 import Calendar from 'react-calendar'
 import axios from 'axios'
 
@@ -13,7 +12,6 @@ const WelcomePage = (props) => {
 
     // Make The date into a string so can be passed to state
     useEffect(() => {
-        console.log(props.user)
         setTodoList(props.user.todo)
         let initialDate = dateSelected.toDateString()
         setViewDate(initialDate)
@@ -68,7 +66,6 @@ const WelcomePage = (props) => {
                         date: viewDate
                     }
                 }).then( response => {
-                    console.log(response.data)
                 })
                           
                 // axios call to save the entry to db non-google
@@ -80,7 +77,6 @@ const WelcomePage = (props) => {
                         date: viewDate
                     }
                 }).then( response => {
-                    console.log(response.data)
                 })
             }
             ev.target.item.value = ''
@@ -111,13 +107,11 @@ const WelcomePage = (props) => {
         let myRegexedTarget = theTarget.match(/>\D*</)
         let myfirstTarget = myRegexedTarget[0].replace(/(<|>)/mg, '')
         let myFinalTarget = myfirstTarget.replace('Item: ', '')
-        console.log(myFinalTarget)
         if (props.user.googleuser) {
             axios.post('/auth/googledelete', {
                 email: props.user.email,
                 item: myFinalTarget
             }).then( response => {
-                console.log(response.data)
                 setTodoList(response.data)
             })
         } else {
@@ -125,7 +119,6 @@ const WelcomePage = (props) => {
                 email: props.user.email,
                 item: myFinalTarget
             }).then( response => {
-                console.log(response.data)
                 setTodoList(response.data)
             })
         }
@@ -148,7 +141,6 @@ const WelcomePage = (props) => {
                     myArray.push(ele)
                 }
             })
-            console.log(myArray)
             setCurrDateEvents(myArray)
         }
     }, [viewDate])
