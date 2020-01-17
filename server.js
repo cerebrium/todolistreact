@@ -28,6 +28,10 @@ app.use('/api', require('./routes/weather'))
 app.use('/locked',
         expressJWT({ secret: process.env.JWT_SECRET }).unless({ method: 'POST' }), 
         require('./routes/locked'));
+app.use(express.static(__dirname + '/client/build'));
+app.get('*', function(req, res) {
+	res.sendFile(__dirname + '/client/build/index.html');
+});
 
 app.listen(process.env.PORT, () => {
     console.log(`listening on port: ${process.env.PORT}`)
