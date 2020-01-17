@@ -28,7 +28,6 @@
 
 .inputs {
   width: 14vw;
-  /* border-radius: 20%; */
   margin-bottom: 2%;
   height: 2vh;
 }
@@ -41,7 +40,6 @@ h1 {
 }
 .inputsOther {
   width: 14vw;
-  /* border-radius: 20%; */
   margin-bottom: 2%;
   height: 2vh;
 }
@@ -86,7 +84,18 @@ h1 {
 .calanderPlacer{
   display: flex;
   align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  margin-left: 2%;
+  height: 45vh;
+  width: 30vw;
+  border: 2px solid rgba(250, 247, 247, 0.8);
+  border-radius: 5%;
+  background-color: rgba(250, 247, 247, 0.6);
+}
+
+.calanderPlacerTwo{
+  display: flex;
+  align-items: center;
   flex-direction: column;
   margin-left: 2%;
   height: 45vh;
@@ -123,6 +132,11 @@ h1 {
   text-align: left;
 }
 
+.currentScheduledEvents {
+  overflow: scroll;
+  font-size: 2em;
+  padding-bottom: 1%;
+}
 
 .itemsOnList{
   overflow: scroll;

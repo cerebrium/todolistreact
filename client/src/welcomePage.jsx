@@ -9,6 +9,7 @@ const WelcomePage = (props) => {
     const [ time, setTime ] = useState('')
     const [ weatherData, setWeatherData ] = useState(null)
     const [ todoList, setTodoList ] = useState([])
+    const [ currDateEvents, setCurrDateEvents ] = useState([])
 
     // Make The date into a string so can be passed to state
     useEffect(() => {
@@ -130,6 +131,28 @@ const WelcomePage = (props) => {
         }
     }
 
+    // map the current date events
+    var myCurrDates;
+    if (currDateEvents) {
+        myCurrDates = currDateEvents.map((ele, index) => <h5 key={index}>{ele.listItem}</h5>)
+    } else {
+        myCurrDates = 'Nothing to do today!'
+    }
+
+    // Events for date selected
+    useEffect(() => {
+        if (todoList) {
+            let myArray = []
+            todoList.forEach((ele, index) => {
+                if (ele.date === viewDate) {
+                    myArray.push(ele)
+                }
+            })
+            console.log(myArray)
+            setCurrDateEvents(myArray)
+        }
+    }, [viewDate])
+
     // todo list items
     var items;
     if (todoList) {
@@ -139,6 +162,7 @@ const WelcomePage = (props) => {
     } else {
         items = ''
     }
+
     // map the weather data into a nice flow
     var weatherApp;
     if (weatherData) {
@@ -164,13 +188,17 @@ const WelcomePage = (props) => {
                     {weatherApp}
                 </div>
                 <div className='bottomBoxes'>
+                    <div className='calanderPlacerTwo'>
+                        <h2>Events For: {viewDate}</h2> 
+                        <div className='currentScheduledEvents'>{myCurrDates}</div>
+                    </div>
                     <div className='calanderPlacer'>
-                        <label>Selected Date: {viewDate}</label><br />  
+                        <h2>Date Selected: {viewDate}</h2> <br />
                         <Calendar onChange={onChangeTwo} className='calendar'/><br />
                     </div>
                     <div className='listPlacer'>
                         <div>
-                            <h3 className='centerThis'>Todo List</h3>
+                            <h2 className='centerThis'>Todo List</h2>
                         </div>
                         <div className='addItem'>
                             <form onSubmit={handleSubmit}>
