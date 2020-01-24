@@ -253,9 +253,9 @@ const WelcomePage = (props, transcript, resetTranscript, startListening, browser
                                 <label>Record to add Item</label>{'  '}
                                 <input type="text" name='item' value={props.transcript} className='inputBar'/><br />
                                 <button onClick={startRecording} className='submitButtonTwo'>
-                                    Record
+                                    RECORD
                                 </button>
-                                <button onClick={stopRecording} className='submitButtonTwo'>
+                                <button onClick={stopRecording} className='submitButtonThree'>
                                     Stop
                                 </button>
                                     <input type="submit" value="Add Item" id='submitButton'/>
