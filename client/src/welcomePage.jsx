@@ -119,8 +119,12 @@ const WelcomePage = (props, transcript, resetTranscript, startListening, browser
                             date: viewDate
                         }
                     }).then( response => {
+                        console.log('post to googleedit', response.data)
+                        let currDate = viewDate
+                        setViewDate('')
+                        setViewDate(currDate)
                     })
-                            
+                    
                     // axios call to save the entry to db non-google
                 } else {
                     axios.post('/auth/edit', {
@@ -130,6 +134,10 @@ const WelcomePage = (props, transcript, resetTranscript, startListening, browser
                             date: viewDate
                         }
                     }).then( response => {
+                        console.log('post to auth/edit', response.data)
+                        let currDate = viewDate
+                        setViewDate('')
+                        setViewDate(currDate)
                     })
                 }
                 ev.target.item.value = ''
@@ -168,6 +176,9 @@ const WelcomePage = (props, transcript, resetTranscript, startListening, browser
                 item: myFinalTarget
             }).then( response => {
                 setTodoList(response.data)
+                let currDate = viewDate
+                setViewDate('')
+                setViewDate(currDate)
             })
         } else {
             axios.post('/auth/delete', {
@@ -175,6 +186,9 @@ const WelcomePage = (props, transcript, resetTranscript, startListening, browser
                 item: myFinalTarget
             }).then( response => {
                 setTodoList(response.data)
+                let currDate = viewDate
+                setViewDate('')
+                setViewDate(currDate)
             })
         }
     }
@@ -235,17 +249,14 @@ const WelcomePage = (props, transcript, resetTranscript, startListening, browser
                     {weatherApp}
                 </div>
                 <div className='bottomBoxes'>
-                    <div className='calanderPlacerTwo'>
-                        <h2>Events For: {viewDate}</h2> 
-                        <div className='currentScheduledEvents'>{myCurrDates}</div>
-                    </div>
+                    
                     <div className='calanderPlacer'>
                         <h2>Date Selected: {viewDate}</h2> <br />
                         <Calendar onChange={onChangeTwo} className='calendar'/><br />
                     </div>
                     <div className='listPlacer'>
                         <div>
-                            <h2 className='centerThis'>Todo List</h2>
+                            <h2 className='centerThis'>Record to add Item</h2>
                             <ReactMic record={record} className="sound-wave" onStop={onStop} onData={onData}/>
                         </div>
                         <div className='addItem'>
@@ -267,7 +278,10 @@ const WelcomePage = (props, transcript, resetTranscript, startListening, browser
                             </ul>
                         </div>
                     </div>
-
+                    <div className='calanderPlacerTwo'>
+                        <h2>Events For: {viewDate}</h2> 
+                        <div className='currentScheduledEvents'>{myCurrDates}</div>
+                    </div>
                 </div>
 
             </div>
