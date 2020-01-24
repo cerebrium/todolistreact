@@ -22,6 +22,7 @@ const WelcomePage = (props, transcript, resetTranscript, startListening, browser
     const [ weatherData, setWeatherData ] = useState(null)
     const [ todoList, setTodoList ] = useState([])
     const [ currDateEvents, setCurrDateEvents ] = useState([])
+    const [ visible, setVisible ] = useState('sound-wave-invisible')
 
     // Defining the outer speechrecognition container
     const recognition = new SpeechRecognition()
@@ -49,6 +50,7 @@ const WelcomePage = (props, transcript, resetTranscript, startListening, browser
 
     // start recording
     const startRecording = () => {
+        setVisible('sound-wave-visible')
         setRecord(true)
         props.resetTranscript()
         props.startListening()
@@ -57,6 +59,7 @@ const WelcomePage = (props, transcript, resetTranscript, startListening, browser
     // Stop Recording
     const stopRecording = (ev) => {
         ev.preventDefault()
+        setVisible('sound-wave-invisible')
         setRecord(false)
         props.stopListening()
         setTimeout(() => {
@@ -257,7 +260,7 @@ const WelcomePage = (props, transcript, resetTranscript, startListening, browser
                     <div className='listPlacer'>
                         <div>
                             <h2 className='centerThis'>Record to add Item</h2>
-                            <ReactMic record={record} className="sound-wave" onStop={onStop} onData={onData}/>
+                            <ReactMic record={record} className={`${visible}`} onStop={onStop} onData={onData}/>
                         </div>
                         <div className='addItem'>
                             <form onSubmit={handleSubmit}>

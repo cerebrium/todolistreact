@@ -81,9 +81,16 @@ h1 {
   background-size: cover;
 }
 
-.sound-wave {
+.sound-wave-invisible {
   width: 15vw;
   margin-bottom: 5%;
+  opacity: 0;
+}
+
+.sound-wave-visible {
+  width: 15vw;
+  margin-bottom: 5%;
+  opacity: 1;
 }
 
 .inputBar {
