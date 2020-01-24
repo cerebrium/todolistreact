@@ -58,6 +58,7 @@ const App = () => {
     }
   }
 
+  // added ommetn
   // check to see if person is logged in or not
   useEffect(() => {
     checkForLocalToken()
