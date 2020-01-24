@@ -99,6 +99,7 @@ const App = () => {
       <div className='app'>
         <div className='content-box'>
           <h1>NAuth</h1>
+          <h3>Google Login</h3>
           <GoogleLogin
               clientId="923402079605-ddorgpubjqlos3ihnk089c22g0tmskre.apps.googleusercontent.com"
               buttonText="Login"
