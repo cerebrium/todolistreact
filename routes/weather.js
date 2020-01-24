@@ -15,12 +15,10 @@ var geo;
   })();
 
 router.get('/weather', (req, res) => {
-    console.log('in this block')
     if (geo.length > 0) {
         let lat = geo.toString()
         console.log(lat)
         axios.get(`https://api.darksky.net/forecast/${process.env.DARK_SKY_API}/${lat}`).then( response => {
-            console.log(response.data)
             res.json(response.data.daily)
         })
     }

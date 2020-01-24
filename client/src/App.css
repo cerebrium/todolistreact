@@ -81,6 +81,40 @@ h1 {
   background-size: cover;
 }
 
+.sound-wave {
+  width: 15vw;
+  margin-bottom: 5%;
+}
+
+.inputBar {
+  margin-bottom: 5%;
+  width: 15vw;
+}
+
+#submitButton {
+  font-size: 1em;
+  border-radius: 8%;
+}
+
+#submitButton:hover {
+  font-size: 1em;
+  border-radius: 8%;
+  background-color: orangered;
+}
+
+.submitButtonTwo {
+  font-size: 1em;
+  border-radius: 8%;
+  margin-right: 2%;
+}
+
+.submitButtonTwo:hover {
+  font-size: 1em;
+  border-radius: 8%;
+  margin-right: 2%;
+  background-color: orangered;
+}
+
 .calanderPlacer{
   display: flex;
   align-items: center;

@@ -1,17 +1,42 @@
 import React, { useState, useEffect} from 'react'
 import Calendar from 'react-calendar'
 import axios from 'axios'
+import { ReactMic } from 'react-mic'
+import SpeechRecognition from "react-speech-recognition"
+import PropTypes from "prop-types";
+import './App.css'
 
-const WelcomePage = (props) => {
+const propTypes = {
+    // Props injected by SpeechRecognition
+    transcript: PropTypes.string,
+    resetTranscript: PropTypes.func,
+    browserSupportsSpeechRecognition: PropTypes.bool
+};
+
+const WelcomePage = (props, transcript, resetTranscript, startListening, browserSupportsSpeechRecognition) => {
+    const [ isBlocked, setIsBlocked ] = useState(false)
     const [dateSelected, setDateSelected] = useState(new Date())
+    const [ record, setRecord] = useState(false)
     const [viewDate, setViewDate] = useState('')
     const [ time, setTime ] = useState('')
     const [ weatherData, setWeatherData ] = useState(null)
     const [ todoList, setTodoList ] = useState([])
     const [ currDateEvents, setCurrDateEvents ] = useState([])
 
+    // Defining the outer speechrecognition container
+    const recognition = new SpeechRecognition()
+
     // Make The date into a string so can be passed to state
     useEffect(() => {
+        navigator.mediaDevices.getUserMedia({audio: true})
+        .then( (info) => {
+            if (info.active) {
+                setIsBlocked(true)
+            } 
+        })
+        .catch(function(err) {
+            console.log(err)
+        });
         setTodoList(props.user.todo)
         let initialDate = dateSelected.toDateString()
         setViewDate(initialDate)
@@ -21,6 +46,33 @@ const WelcomePage = (props) => {
         let theTime = dateSelected.toTimeString()
             setTime(theTime)    
     }, [])
+
+    // start recording
+    const startRecording = () => {
+        setRecord(true)
+        props.resetTranscript()
+        props.startListening()
+    }
+
+    // Stop Recording
+    const stopRecording = (ev) => {
+        ev.preventDefault()
+        setRecord(false)
+        props.stopListening()
+        setTimeout(() => {
+            props.resetTranscript()
+        }, 10000)
+    }
+
+    // Real Time blob recording in process
+    const onData = (recordedBlob) => {
+        console.log('');
+    }
+    
+    // If blob is done recording here it is
+    const onStop = (recordedBlob) => {
+        console.log('')
+    }
 
     // Keep time updating
     setInterval(() => {
@@ -47,48 +99,51 @@ const WelcomePage = (props) => {
     // Todo List
     var handleSubmit = (ev) => {
         ev.preventDefault()
-        var currentList = []
-        // if the state list is not empty
-        if (todoList !== undefined) {
-            currentList = [...todoList]
-            currentList.push({
-                listItem: ev.target.item.value,
-                date: viewDate
-            })
-            setTodoList(currentList)
+        if (record === false) {
+            var currentList = []
+            // if the state list is not empty
+            if (todoList !== undefined) {
+                currentList = [...todoList]
+                currentList.push({
+                    listItem: ev.target.item.value,
+                    date: viewDate
+                })
+                setTodoList(currentList)
 
-            // axios call to save the entry to db google
-            if (props.user.googleuser) {
-                axios.post('/auth/googledit', {
-                    email: props.user.email,
-                    item: {
-                        listItem: ev.target.item.value,
-                        date: viewDate
-                    }
-                }).then( response => {
-                })
-                          
-                // axios call to save the entry to db non-google
+                // axios call to save the entry to db google
+                if (props.user.googleuser) {
+                    axios.post('/auth/googledit', {
+                        email: props.user.email,
+                        item: {
+                            listItem: ev.target.item.value,
+                            date: viewDate
+                        }
+                    }).then( response => {
+                    })
+                            
+                    // axios call to save the entry to db non-google
+                } else {
+                    axios.post('/auth/edit', {
+                        email: props.user.email,
+                        item: {
+                            listItem: ev.target.item.value,
+                            date: viewDate
+                        }
+                    }).then( response => {
+                    })
+                }
+                ev.target.item.value = ''
+                // if the list in state is empty
             } else {
-                axios.post('/auth/edit', {
-                    email: props.user.email,
-                    item: {
-                        listItem: ev.target.item.value,
-                        date: viewDate
-                    }
-                }).then( response => {
+                currentList.push({
+                    listItem: ev.target.item.value,
+                    date: viewDate
                 })
+                setTodoList(currentList)
+                ev.target.item.value = ''
             }
-            ev.target.item.value = ''
-            // if the list in state is empty
-        } else {
-            currentList.push({
-                listItem: ev.target.item.value,
-                date: viewDate
-            })
-            setTodoList(currentList)
-            ev.target.item.value = ''
         }
+        
     }
 
     // turn list item red
@@ -191,12 +246,19 @@ const WelcomePage = (props) => {
                     <div className='listPlacer'>
                         <div>
                             <h2 className='centerThis'>Todo List</h2>
+                            <ReactMic record={record} className="sound-wave" onStop={onStop} onData={onData}/>
                         </div>
                         <div className='addItem'>
                             <form onSubmit={handleSubmit}>
-                                <label>Add Item</label>{'  '}
-                                <input type="text" name='item'/>
-                                <input type="submit" value="Submit"/>
+                                <label>Record to add Item</label>{'  '}
+                                <input type="text" name='item' value={props.transcript} className='inputBar'/><br />
+                                <button onClick={startRecording} className='submitButtonTwo'>
+                                    Record
+                                </button>
+                                <button onClick={stopRecording} className='submitButtonTwo'>
+                                    Stop
+                                </button>
+                                    <input type="submit" value="Add Item" id='submitButton'/>
                             </form>
                         </div>
                         <div className='itemsOnList'>
@@ -213,4 +275,11 @@ const WelcomePage = (props) => {
     )
 }
 
-export default WelcomePage
+// options for the speech recognition api
+const options = {
+    autoStart: false
+  }
+
+WelcomePage.prototype = propTypes
+
+export default SpeechRecognition(options)(WelcomePage)

@@ -16,11 +16,9 @@ const App = () => {
     const [ errorMessage, setErrorMessage] = useState('')
     const [ lockedResult, setLockedResult ] = useState('')
 
-  // Get the ip address of person on site
-
-
   // handles writting data to database and recieving google data
   const responseGoogle = (response) => {
+    console.log(response)
       axios.post('/auth/googlesignup', {
         name: response.profileObj.name, 
         email: response.profileObj.email,
@@ -101,7 +99,7 @@ const App = () => {
         <div className='content-box'>
           <h1>NAuth</h1>
           <GoogleLogin
-              clientId="801108272625-cbbc8i5j8v8s423p95mkte842cdp7d32.apps.googleusercontent.com"
+              clientId="923402079605-ddorgpubjqlos3ihnk089c22g0tmskre.apps.googleusercontent.com"
               buttonText="Login"
               onSuccess={responseGoogle}
               onFailure={responseGoogle}

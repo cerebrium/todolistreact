@@ -35,6 +35,8 @@
     "public-ip": "^4.0.0",
     "react-calendar": "^2.19.2",
     "react-google-login": "^5.0.7",
-    "react-router-dom": "^5.1.2"
+    "react-mic": "^12.4.1",
+    "react-router-dom": "^5.1.2",
+    "react-speech-recognition": "^2.0.4"
   }
 }
